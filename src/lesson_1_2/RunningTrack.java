@@ -1,4 +1,5 @@
-package lesson_1;
+package lesson_1_2;
+
 
 public class RunningTrack implements Overcomeable {
     static double length;

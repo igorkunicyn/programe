@@ -1,4 +1,4 @@
-package lesson_1;
+package lesson_1_2;
 
 public enum DayOfWeek {
     MONDAY(1),TUESDAY(2),WEDNESDAY(3),THURSDAY(4),FRIDAY(5),

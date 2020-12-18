@@ -1,6 +1,7 @@
-package lesson_1;
+package lesson_1_2;
 
-public class Wall implements Overcomeable{
+
+public class Wall implements Overcomeable {
     static double height;
     static String name;
     Wall(){

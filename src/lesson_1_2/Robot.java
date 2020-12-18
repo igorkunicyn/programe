@@ -1,23 +1,24 @@
-package lesson_1;
+package lesson_1_2;
 
-public class Human implements RunAndJumpable{
+
+public class Robot implements RunAndJumpable {
     private String name;
     static double maxlength;
     static double maxheigth;
-    Human(String s){
+    Robot(String s){
         name = s;
-        maxheigth=2;
-        maxlength=2000;
+        maxheigth=1;
+        maxlength=500;
     }
     public void run(){
-        System.out.println("Human "+name+" knows run");
+        System.out.println("Robot "+name+" knows run");
     }
     public void jump(){
-        System.out.println("Human "+name+" knows jump");
+        System.out.println("Robot "+name+" knows jump");
     }
 
     public String getName() {
-        return "Human "+name;
+        return "Robot "+name;
     }
 
     @Override

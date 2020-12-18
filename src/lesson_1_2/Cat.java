@@ -1,6 +1,7 @@
-package lesson_1;
+package lesson_1_2;
 
-public class Cat implements RunAndJumpable{
+
+public class Cat implements RunAndJumpable {
     private String name;
     static double maxlength;
     static double maxheigth;
