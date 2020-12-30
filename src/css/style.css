@@ -1,0 +1,21 @@
+.root{
+    -fx-font-size: 16px;
+}
+
+.button{
+    -fx-background-color: grey;
+}
+
+.button: hover{
+    -fx-background-color: yellow;
+    -fx-font-size: 18px;
+}
+
+.text-area{
+    -fx-control-inner-background: purple;
+    -fx-text-fill: yellow;
+}
+.text-field{
+    -fx-control-inner-background: blue;
+    -fx-text-fill: white;
+}
