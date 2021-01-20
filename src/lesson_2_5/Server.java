@@ -14,7 +14,7 @@ public class Server {
     static Socket socket;
     static final int PORT = 8189;
 
-    public static void main(String[] args) {
+    public Server() {
         try {
             server = new ServerSocket(PORT);
             out.println("Server started");
