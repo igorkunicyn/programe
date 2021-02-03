@@ -12,7 +12,6 @@
         <URL value="@/style.css"/>
     </stylesheets>
 
-
     <TextField fx:id="loginField" promptText="login"/>
     <PasswordField fx:id="passwordField" promptText="password"/>
     <TextField fx:id="nicknameField" promptText="nickname"/>

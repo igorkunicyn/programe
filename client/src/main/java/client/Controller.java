@@ -98,14 +98,12 @@ public class Controller implements Initializable {
                     //цикл аутентификации
                     while (true) {
                         String str = in.readUTF();
-
                         if (str.startsWith("/")) {
                             if (str.startsWith(Command.AUTH_OK)) {
                                 nickname = str.split("\\s")[1];
                                 setAuthenticated(true);
                                 break;
                             }
-
                             if (str.equals(Command.END)) {
                                 System.out.println("client disconnected");
                                 throw new RuntimeException("server disconnected us");

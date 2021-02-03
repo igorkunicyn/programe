@@ -93,7 +93,6 @@ public class Server {
 
     public void broadcastClientList() {
         StringBuilder sb = new StringBuilder(Command.CLIENT_LIST);
-
         for (ClientHandler c : clients) {
             sb.append(" ").append(c.getNickname());
         }

@@ -24,7 +24,6 @@ public class DataBaseAuthService implements AuthService{
         psInsert.executeUpdate();
     }
 
-
     public void disconnect() {
         try {
             stmt.close();

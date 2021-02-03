@@ -89,7 +89,6 @@ public class ClientHandler {
                                 }
                                 server.privateMsg(this, token[1], token[2]);
                             }
-
                         } else {
                             server.broadcastMsg(this, str);
                         }

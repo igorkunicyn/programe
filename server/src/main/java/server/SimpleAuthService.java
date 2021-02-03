@@ -18,7 +18,6 @@ public class SimpleAuthService implements AuthService {
 
     private List<UserData> users;
 
-
     public SimpleAuthService() {
         users = new ArrayList<>();
         users.add(new UserData("qwe", "qwe", "qwe"));
