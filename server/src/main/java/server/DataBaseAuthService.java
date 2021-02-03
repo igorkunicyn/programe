@@ -3,7 +3,6 @@ package server;
 import java.sql.*;
 import java.util.Date;
 
-
 public class DataBaseAuthService implements AuthService{
     private static Connection connection;
     private static Statement stmt;
@@ -38,7 +37,6 @@ public class DataBaseAuthService implements AuthService{
             throwables.printStackTrace();
         }
     }
-
 
     @Override
     public String getNicknameByLoginAndPassword(String login, String password) throws SQLException {

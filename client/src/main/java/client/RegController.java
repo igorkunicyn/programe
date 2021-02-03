@@ -30,5 +30,4 @@ public class RegController {
     public void regNo(){
         textArea.appendText("Логин или никнейм уже заняты\n");
     }
-
 }

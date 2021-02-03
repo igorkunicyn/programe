@@ -9,6 +9,7 @@
 <VBox fx:controller="client.Controller"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
+
     <stylesheets>
         <URL value="@/style.css"/>
     </stylesheets>

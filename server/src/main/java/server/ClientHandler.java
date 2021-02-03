@@ -32,8 +32,10 @@ public class ClientHandler {
 
                         if (str.startsWith(Command.AUTH)) {
                             String[] token = str.split("\\s");
-                           String newNick = server.getDataBaseAuthService().getNicknameByLoginAndPassword(token[1], token[2]);
-//                            String newNick = server.getAuthService().getNicknameByLoginAndPassword(token[1], token[2]);
+                           String newNick = server.getDataBaseAuthService().getNicknameByLoginAndPassword(token[1],
+                                   token[2]);
+//                            String newNick = server.getAuthService().getNicknameByLoginAndPassword(token[1],
+//                            token[2]);
                             login = token[1];
                             if (newNick != null) {
                                 if (!server.isLoginAuthenticated(login)) {
