@@ -32,10 +32,8 @@ public class ClientHandler {
 
                         if (str.startsWith(Command.AUTH)) {
                             String[] token = str.split("\\s");
-                           String newNick = server.getDataBaseAuthService().getNicknameByLoginAndPassword(token[1],
-                                   token[2]);
-//                            String newNick = server.getAuthService().getNicknameByLoginAndPassword(token[1],
-//                            token[2]);
+                            String newNick = server.getAuthService()
+                                    .getNicknameByLoginAndPassword(token[1], token[2]);
                             login = token[1];
                             if (newNick != null) {
                                 if (!server.isLoginAuthenticated(login)) {
@@ -44,6 +42,9 @@ public class ClientHandler {
                                     server.subscribe(this);
                                     System.out.println("client " + nickname + " connected " + socket.getRemoteSocketAddress());
                                     socket.setSoTimeout(0);
+                                    //==============//
+//                                    sendMsg(SQLHandler.getMessageForNick(nickname));
+                                    //==============//
                                     break;
                                 } else {
                                     sendMsg("С этим логином уже авторизовались");
@@ -63,8 +64,7 @@ public class ClientHandler {
                             if (token.length < 4) {
                                 continue;
                             }
-                            boolean isRegistered = server.getDataBaseAuthService().registration(token[1], token[2], token[3]);
-//                            boolean isRegistered = server.getAuthService().registration(token[1], token[2], token[3]);
+                            boolean isRegistered = server.getAuthService().registration(token[1], token[2], token[3]);
                             if (isRegistered) {
                                 sendMsg(Command.REG_OK);
                             } else {
@@ -89,16 +89,36 @@ public class ClientHandler {
                                 }
                                 server.privateMsg(this, token[1], token[2]);
                             }
+
+                            //==============//
+                            if (str.startsWith(Command.CHANGE_NICK)) {
+                                String[] token = str.split("\\s+", 2);
+                                if (token.length < 2) {
+                                    continue;
+                                }
+                                if (token[1].contains(" ")) {
+                                    sendMsg("Ник не может содержать пробелов");
+                                    continue;
+                                }
+                                if (server.getAuthService().changeNick(this.nickname, token[1])) {
+                                    sendMsg(Command.YOUR_NICK + token[1]);
+                                    sendMsg("Ваш ник изменен на " + token[1]);
+                                    this.nickname = token[1];
+                                    server.broadcastClientList();
+                                } else {
+                                    sendMsg("Не удалось изменить ник. Ник " + token[1] + " уже существует");
+                                }
+                            }
+                            //==============//
                         } else {
                             server.broadcastMsg(this, str);
                         }
                     }
-                //SocketTimeoutException
                 } catch (SocketTimeoutException e) {
                     sendMsg(Command.END);
                 } catch (RuntimeException e) {
                     System.out.println(e.getMessage());
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
                     server.unsubscribe(this);
@@ -115,11 +135,11 @@ public class ClientHandler {
         }
     }
 
+
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
-            server.getDataBaseAuthService().readHistory(msg);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

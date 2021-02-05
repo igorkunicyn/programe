@@ -10,7 +10,7 @@
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
     <stylesheets>
-        <URL value="@/style.css"/>
+        <URL value="@/css/style.css"/>
     </stylesheets>
 
     <HBox fx:id="authPanel">

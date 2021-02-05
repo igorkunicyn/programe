@@ -9,14 +9,15 @@
       xmlns:fx="http://javafx.com/fxml" alignment="center">
 
     <stylesheets>
-        <URL value="@/style.css"/>
+        <URL value="@/css/style.css"/>
     </stylesheets>
+
 
     <TextField fx:id="loginField" promptText="login"/>
     <PasswordField fx:id="passwordField" promptText="password"/>
     <TextField fx:id="nicknameField" promptText="nickname"/>
-    <TextArea fx:id="textArea" VBox.vgrow="ALWAYS" editable="false"/>
 
+    <TextArea fx:id="textArea" VBox.vgrow="ALWAYS" editable="false"/>
     <HBox>
         <Button text="reg" minWidth="100" onAction="#tryToReg"/>
         <Button text="cancel" minWidth="100"/>

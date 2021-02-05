@@ -3,6 +3,7 @@ package client;
 import Commands.Command;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,11 +18,15 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import javafx.stage.WindowEvent;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -52,6 +57,14 @@ public class Controller implements Initializable {
     private Stage stage;
     private Stage regStage;
     private RegController regController;
+    private FileWriter fileWriter ;
+    private String loginForNameFile;
+    private List<String> listHistory;
+
+
+    public FileWriter getFileWriter() {
+        return fileWriter;
+    }
 
     public void setAuthenticated(boolean authenticated) {
         this.authenticated = authenticated;
@@ -66,6 +79,7 @@ public class Controller implements Initializable {
         }
         setTitle(nickname);
         textArea.clear();
+
     }
 
     @Override
@@ -98,12 +112,31 @@ public class Controller implements Initializable {
                     //цикл аутентификации
                     while (true) {
                         String str = in.readUTF();
+
                         if (str.startsWith("/")) {
                             if (str.startsWith(Command.AUTH_OK)) {
                                 nickname = str.split("\\s")[1];
                                 setAuthenticated(true);
+                                try {
+                                    listHistory = new ArrayList<>(Files.readAllLines(Paths.get("client/" +
+                                            "history_of_clients/history_" + loginForNameFile + ".txt")));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                if (listHistory.size()<10){
+                                    for (String s: listHistory){
+                                        textArea.appendText(s+"\n");
+                                    }
+                                } else {
+                                    for (int i = 10; i <listHistory.size() ; i++) {
+                                        textArea.appendText(listHistory.get(i)+"\n");
+                                    }
+                                }
+                                fileWriter = new FileWriter("client/history_of_clients/history_"+
+                                        loginForNameFile+".txt");
                                 break;
                             }
+
                             if (str.equals(Command.END)) {
                                 System.out.println("client disconnected");
                                 throw new RuntimeException("server disconnected us");
@@ -140,8 +173,15 @@ public class Controller implements Initializable {
                                 });
                             }
 
+                            //==============//
+                            if (str.startsWith(Command.YOUR_NICK)) {
+                                nickname = str.split(" ")[1];
+                                setTitle(nickname);
+                            }
+                            //==============//
                         } else {
                             textArea.appendText(str + "\n");
+                            getFileWriter().write(str+"\n");
                         }
                     }
                 } catch (RuntimeException e) {
@@ -152,6 +192,7 @@ public class Controller implements Initializable {
                     setAuthenticated(false);
                     try {
                         socket.close();
+                        getFileWriter().close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -176,6 +217,7 @@ public class Controller implements Initializable {
 
     public void tryToAuth(ActionEvent actionEvent) {
         if (socket == null || socket.isClosed()) {
+            loginForNameFile = loginField.getText().trim();
             connect();
         }
 
@@ -234,8 +276,8 @@ public class Controller implements Initializable {
     public void tryToReg(String login, String password, String nickname) {
         if (socket == null || socket.isClosed()) {
             connect();
-        }
 
+        }
         String msg = String.format("%s %s %s %s", Command.REG, login, password, nickname);
         try {
             out.writeUTF(msg);
