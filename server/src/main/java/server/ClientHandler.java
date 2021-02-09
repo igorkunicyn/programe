@@ -124,7 +124,6 @@ public class ClientHandler {
                     System.out.println("client disconnected");
                     try {
                         socket.close();
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

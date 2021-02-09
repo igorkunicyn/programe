@@ -37,7 +37,6 @@ public class SimpleAuthService implements AuthService {
         }
         return null;
     }
-
     @Override
     public boolean registration(String login, String password, String nickname) {
         for (UserData user : users) {

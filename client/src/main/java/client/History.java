@@ -22,7 +22,6 @@ public class History {
             e.printStackTrace();
         }
     }
-
     public static void stop() {
         if (out != null) {
             out.close();

@@ -117,7 +117,6 @@ public class Controller implements Initializable {
                                 ///==============///
                                 break;
                             }
-
                             if (str.equals(Command.END)) {
                                 System.out.println("client disconnected");
                                 throw new RuntimeException("server disconnected us");

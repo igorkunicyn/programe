@@ -20,7 +20,6 @@ public class RegController {
         String login = loginField.getText().trim();
         String password = passwordField.getText().trim();
         String nickname = nicknameField.getText().trim();
-
         controller.tryToReg(login, password, nickname);
     }
 
