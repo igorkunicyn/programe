@@ -22,8 +22,7 @@ public class ClientHandler {
             this.socket = socket;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-
-            new Thread(() -> {
+//            new Thread(() -> {
                 try {
                     socket.setSoTimeout(120000);
                     //цикл аутентификации
@@ -125,14 +124,16 @@ public class ClientHandler {
                     System.out.println("client disconnected");
                     try {
                         socket.close();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-            }).start();
+//            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 
