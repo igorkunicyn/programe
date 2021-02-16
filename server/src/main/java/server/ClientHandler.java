@@ -22,7 +22,7 @@ public class ClientHandler {
             this.socket = socket;
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
-//            new Thread(() -> {
+            new Thread(() -> {
                 try {
                     socket.setSoTimeout(120000);
                     //цикл аутентификации
@@ -39,7 +39,8 @@ public class ClientHandler {
                                     nickname = newNick;
                                     sendMsg(Command.AUTH_OK + " " + nickname);
                                     server.subscribe(this);
-                                    System.out.println("client " + nickname + " connected " + socket.getRemoteSocketAddress());
+//                                    System.out.println("client " + nickname + " connected " + socket.getRemoteSocketAddress());
+                                    server.getLogger().info("client " + nickname + " connected " + socket.getRemoteSocketAddress());
                                     socket.setSoTimeout(0);
                                     //==============//
 //                                    sendMsg(SQLHandler.getMessageForNick(nickname));
@@ -121,14 +122,15 @@ public class ClientHandler {
                     e.printStackTrace();
                 } finally {
                     server.unsubscribe(this);
-                    System.out.println("client disconnected");
+//                    System.out.println("client disconnected");
+                    server.getLogger().info("client " + nickname + " disconnected " + socket.getRemoteSocketAddress());
                     try {
                         socket.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-//            }).start();
+            }).start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,6 +141,7 @@ public class ClientHandler {
     public void sendMsg(String msg) {
         try {
             out.writeUTF(msg);
+            server.getLogger().fine("Сообщение от клиента "+ msg);
         } catch (IOException e) {
             e.printStackTrace();
         }

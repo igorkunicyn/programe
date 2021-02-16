@@ -2,6 +2,7 @@ package server;
 
 import Commands.Command;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -9,6 +10,10 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Server {
     private ServerSocket server;
@@ -16,11 +21,13 @@ public class Server {
     private final int PORT = 8189;
     private List<ClientHandler> clients;
     private AuthService authService;
-    private ExecutorService service;
+    private static final Logger logger = Logger.getLogger(Server.class.getName());
 
+    public Logger getLogger() {
+        return logger;
+    }
 
     public Server() {
-        service = Executors.newCachedThreadPool();
         clients = new CopyOnWriteArrayList<>();
 //        authService = new SimpleAuthService();
         //==============//
@@ -28,28 +35,30 @@ public class Server {
             throw new RuntimeException("Не удалось подключиться к БД");
         }
         authService = new DBAuthServise();
-        //==============//
+//        logger.setUseParentHandlers(false);
+//==============//
         try {
+            LogManager manager = LogManager.getLogManager();
+            manager.readConfiguration(new FileInputStream("server/logging.properties"));
             server = new ServerSocket(PORT);
-            System.out.println("Server started");
+//            System.out.println("Server started");
+            logger.info("Server started");
 
             while (true) {
                 socket = server.accept();
-                System.out.println("Client connected");
-                service.execute(()-> new ClientHandler(this,socket));
-//                new ClientHandler(this, socket);
+//                System.out.println("Client connected");
+                new ClientHandler(this, socket);
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.severe("Произошла ошибка "+e.getMessage());
         } finally {
             SQLHandler.disconnect();
-//            потоки сами удаляются из кэша при Cach, возможно можно обойтись и без shutdown
-            service.shutdown();
             try {
                 server.close();
             } catch (IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
+                logger.severe("Произошла ошибка "+e.getMessage());
             }
         }
     }
@@ -118,9 +127,6 @@ public class Server {
         for (ClientHandler c : clients) {
             c.sendMsg(msg);
         }
-    }
-    public ExecutorService getService() {
-        return service;
     }
 
 }
