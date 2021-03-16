@@ -7,20 +7,23 @@ public class Main {
 
 
         Random r = new Random();
-        MyArrayList<Integer> mal = new MyArrayList<>(10);
-        for (int i = 0; i < 10; i++) {
-            mal.add(r.nextInt(100));
+        int n = 100000;
+        MyArrayList<Integer> mal = new MyArrayList<>(n);
+        for (int i = 0; i < n; i++) {
+            mal.add(r.nextInt(n));
         }
-        System.out.println(mal);
-
-
-//        mal.selectionSort();
-//        mal.insertionSort();
+        long a = System.currentTimeMillis();
+        mal.selectionSort();
+        long b = System.currentTimeMillis();
+        System.out.println(b-a);
+        a = System.currentTimeMillis();
+        mal.insertionSort();
+        b = System.currentTimeMillis();
+        System.out.println(b-a);
+        a = System.currentTimeMillis();
         mal.bubbleSort();
-
-
-        System.out.println(mal);
-
+        b = System.currentTimeMillis();
+        System.out.println(b-a);
 
     }
 }
