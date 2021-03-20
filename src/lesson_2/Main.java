@@ -5,7 +5,6 @@ import java.util.Random;
 public class Main {
     public static void main(String[] args) {
 
-
         Random r = new Random();
         int n = 100000;
         MyArrayList<Integer> mal = new MyArrayList<>(n);

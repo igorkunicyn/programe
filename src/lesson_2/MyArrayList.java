@@ -94,12 +94,14 @@ public class MyArrayList<T extends Comparable<T>> {
         sb.append(" ]");
         return sb.toString();
     }
+
     public void ensureCapacity(){
         if (size >= (int)(capacity*0.75)){
             capacity = (capacity*3)/2 + 1;
             list = Arrays.copyOf(list,capacity);
         }
     }
+
     public void trimToSize() {
         if (size < capacity) {
             capacity = size;

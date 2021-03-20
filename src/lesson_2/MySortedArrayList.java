@@ -23,7 +23,6 @@ public class MySortedArrayList<T extends Comparable<T>> extends MyArrayList<T> {
     public int binaryIndexOf(T item) {
         int lo = 0;
         int hi = size() - 1;
-
         while (lo <= hi) {
             int mid = lo + (hi - lo) / 2;
             if (item.compareTo(get(mid)) < 0) {
