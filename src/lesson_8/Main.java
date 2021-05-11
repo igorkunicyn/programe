@@ -22,6 +22,7 @@ public class Main {
 
 //        System.out.println(chm);
 
+
         LinearProbingHashMap<Integer, String> lphm = new LinearProbingHashMap<>(9);
         lphm.put(1, "one");
         lphm.put(2, "two");
